@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+<title>Livros</title>
+</head>
+
+<body>
+
+<h1>Cadastro de Livros</h1>
+
+{% if erro %}
+<p style="color:red;">{{ erro }}</p>
+{% endif %}
+
+
+<a href="/autores/">Ir para autores</a>
+
+<h2>Novo Livro</h2>
+
+<form method="POST">
+{% csrf_token %}
+
+<input type="text" name="titulo" placeholder="Título" required>
+
+<input type="number" name="ano" placeholder="Ano" required>
+
+<input type="text" name="isbn" placeholder="ISBN" required>
+
+<select name="autor">
+
+{% for autor in autores %}
+
+<option value="{{ autor.id }}">{{ autor.nome }}</option>
+
+{% endfor %}
+
+</select>
+
+<button type="submit" name="criar">Cadastrar</button>
+
+</form>
+
+<hr>
+
+<h2>Livros cadastrados</h2>
+
+<table border="1">
+
+<tr>
+<th>Título</th>
+<th>Ano</th>
+<th>ISBN</th>
+<th>Autor</th>
+<th>Ações</th>
+</tr>
+
+{% for livro in livros %}
+
+<tr>
+
+<form method="POST">
+{% csrf_token %}
+
+<td>
+<input type="text" name="titulo" value="{{ livro.titulo }}">
+</td>
+
+<td>
+<input type="number" name="ano" value="{{ livro.ano }}">
+</td>
+
+<td>
+<input type="text" name="isbn" value="{{ livro.isbn }}">
+</td>
+
+<td>
+
+<select name="autor">
+
+{% for autor in autores %}
+
+<option value="{{ autor.id }}"
+{% if livro.autor.id == autor.id %}selected{% endif %}>
+{{ autor.nome }}
+</option>
+
+{% endfor %}
+
+</select>
+
+</td>
+
+<td>
+
+<input type="hidden" name="id" value="{{ livro.id }}">
+
+<button type="submit" name="editar">Salvar</button>
+<button type="submit" name="deletar">Excluir</button>
+
+</td>
+
+</form>
+
+</tr>
+
+{% endfor %}
+
+</table>
+
+</body>
+</html>

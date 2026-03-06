@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+<title>Autores</title>
+</head>
+
+<body>
+
+<h1>Cadastro de Autores</h1>
+
+{% if erro %}
+<p style="color:red;">{{ erro }}</p>
+{% endif %}
+
+
+<a href="/livros/">Ir para livros</a>
+
+<h2>Novo Autor</h2>
+
+<form method="POST">
+{% csrf_token %}
+
+<input type="text" name="nome" placeholder="Nome" required>
+<input type="email" name="email" placeholder="Email" required>
+
+<button type="submit" name="criar">Cadastrar</button>
+
+</form>
+
+<hr>
+
+<h2>Autores cadastrados</h2>
+
+<table border="1">
+
+<tr>
+<th>Nome</th>
+<th>Email</th>
+<th>Ações</th>
+</tr>
+
+{% for autor in autores %}
+
+<tr>
+
+<form method="POST">
+{% csrf_token %}
+
+<td>
+<input type="text" name="nome" value="{{ autor.nome }}">
+</td>
+
+<td>
+<input type="email" name="email" value="{{ autor.email }}">
+</td>
+
+<td>
+
+<input type="hidden" name="id" value="{{ autor.id }}">
+
+<button type="submit" name="editar">Salvar</button>
+<button type="submit" name="deletar">Excluir</button>
+
+</td>
+
+</form>
+
+</tr>
+
+{% endfor %}
+
+</table>
+
+</body>
+</html>
